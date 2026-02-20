@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telegram Redirect</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1439536574214824');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1439536574214824&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <style>
+    :root{
+      --tg1:#0e1621;
+      --tg2:#17212b;
+      --accent:#229ED9;
+      --text:#e5e7eb;
+      --muted:#cbd5e1;
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      overflow:hidden;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(34,158,217,.18), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(34,158,217,.10), transparent 55%),
+        radial-gradient(700px 400px at 50% 100%, rgba(255,255,255,.05), transparent 55%),
+        linear-gradient(180deg, var(--tg1), var(--tg2));
+      position:relative;
+    }
+
+    body::before{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      background:
+        radial-gradient(circle at 10% 30%, rgba(255,255,255,.05) 0 18px, transparent 19px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.04) 0 14px, transparent 15px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,.04) 0 22px, transparent 23px),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,.03) 0 16px, transparent 17px);
+      opacity:.8;
+      pointer-events:none;
+      transform: rotate(-8deg);
+    }
+
+    .card{
+      width:min(520px, 94vw);
+      background: rgba(17,24,39,.72);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:22px 18px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position:relative;
+      z-index:1;
+    }
+
+    h1{
+      margin:0 0 12px;
+      font-size:20px;
+      line-height:1.25;
+      font-weight:600;
+    }
+    h1 b{ font-weight:800; }
+
+    .lead{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:16px;
+    }
+
+    .bullets{
+      margin:0 0 14px;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:8px;
+      font-size:15px;
+      color:#e2e8f0;
+    }
+
+    .ctaRow{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .question{
+      margin:0;
+      font-size:16px;
+      color:#f1f5f9;
+      font-weight:600;
+    }
+
+    .btn{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px 16px;
+      border-radius:14px;
+      text-decoration:none;
+      color:white;
+      font-weight:700;
+      background: linear-gradient(135deg, #1b8ec2, var(--accent));
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 14px 28px rgba(34,158,217,.20);
+      overflow:hidden;
+      transform: translateZ(0);
+    }
+
+    .btn img{
+      width:20px; height:20px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+    }
+
+    /* перелив раз в ~2.6 сек */
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: linear-gradient(
+        110deg,
+        transparent 35%,
+        rgba(255,255,255,.55) 50%,
+        transparent 65%
+      );
+      transform: translateX(-120%) rotate(8deg);
+      opacity:0;
+      animation: shine 2.6s ease-in-out infinite;
+    }
+
+    @keyframes shine{
+      0%   { transform: translateX(-120%) rotate(8deg); opacity:0; }
+      35%  { opacity:0; }
+      45%  { opacity:.55; }
+      60%  { transform: translateX(120%) rotate(8deg); opacity:0; }
+      100% { transform: translateX(120%) rotate(8deg); opacity:0; }
+    }
+
+    .hint{
+      margin:10px 0 0;
+      font-size:12px;
+      color:rgba(226,232,240,.75);
+    }
+
+    @media (max-width:420px){
+      h1{ font-size:18px; }
+      .lead{ font-size:15px; }
+      .bullets{ font-size:14px; }
+    }
+  </style>
+
+  <script>
+    // === НАСТРОЙКИ ===
+    const TG_LINK = "https://t.me/Helmut_Bakaitis";
+    const TG_USERNAME = "Helmut_Bakaitis"; // username (без @) — чтобы открывать tg:// на мобиле
+    const AUTO_DELAY_MS = 6000;            // авто-редирект через 2.7с
+    const FALLBACK_MS = 900;               // ждать после tg:// прежде чем fallback на web
+    const CLICK_REDIRECT_DELAY_MS = 180;   // маленькая пауза после события перед редиректом (чтобы пиксель успел)
+    // =================
+
+    let alreadyTracked = false;
+    let clicked = false;
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function trackSubscribeOnce(source) {
+      if (alreadyTracked) return;
+      alreadyTracked = true;
+
+      // Встроенное событие Meta Ads: Subscribe
+      try {
+        if (typeof fbq === "function") {
+          fbq("track", "Subscribe", { source: source });
+        }
+      } catch (e) {}
+    }
+
+    function openTelegramSmart(source) {
+      trackSubscribeOnce(source);
+
+      const webUrl = TG_LINK;
+      const deepUrl = TG_USERNAME
+        ? `tg://resolve?domain=${encodeURIComponent(TG_USERNAME)}`
+        : null;
+
+      // Мобилка + username => пробуем открыть приложение, затем fallback
+      if (isMobile() && deepUrl) {
+        const start = Date.now();
+        window.location.href = deepUrl;
+
+        setTimeout(() => {
+          // если не открылось — уводим на web
+          if (Date.now() - start < FALLBACK_MS + 200) {
+            window.location.href = webUrl;
+          }
+        }, FALLBACK_MS);
+
+        return;
+      }
+
+      // Десктоп/нет username => web
+      window.location.href = webUrl;
+    }
+
+    // Авто-редирект (если не кликнули)
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.querySelector(".btn");
+      if (btn) btn.href = TG_LINK;
+
+      // click tracking + redirect
+      if (btn) {
+        btn.addEventListener("click", (e) => {
+          clicked = true;
+
+          // Если target=_blank и браузер откроет новую вкладку — ок,
+          // но чтобы гарантировать ивент + корректный переход, управляем сами:
+          e.preventDefault();
+
+          trackSubscribeOnce("button_click");
+
+          setTimeout(() => {
+            openTelegramSmart("button_click");
+          }, CLICK_REDIRECT_DELAY_MS);
+        });
+      }
+
+      setTimeout(() => {
+        if (!clicked) {
+          openTelegramSmart("auto_redirect");
+        }
+      }, AUTO_DELAY_MS);
+    });
+  </script>
+</head>
+
+<body>
+  <main class="card">
+    <h1><b>Sales</b> зі знанням англійскьої мови?</h1>
+    <p class="lead">Надамо топові умови для співпраці</p>
+
+    <ul class="bullets">
+      <li>💸 Стабільні виплати (фікс + процент)</li>
+      <li>🌎 Віддалений формат роботи</li>
+      <li>🤝 Швидкий старт без бюрократії</li>
+      <li>📈 Масштабтабування з командою</li>
+    </ul>
+
+    <div class="ctaRow">
+      <p class="question">Поговоримо?</p>
+      <a class="btn" href="https://t.me/Helmut_Bakaitis" rel="noopener">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+        Написати в Telegram
+      </a>
+    </div>
+
+    <p class="hint">Автоматичний перехід у Telegram через кілька секунд…</p>
+  </main>
+</body>
+</html>
